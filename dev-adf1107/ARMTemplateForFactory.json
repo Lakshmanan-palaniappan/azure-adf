@@ -1,0 +1,482 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "dev-adf1107"
+		},
+		"ADLS_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'ADLS'"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"ADLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://devadfstorage.dfs.core.windows.net/"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://pipstoragedev.dfs.core.windows.net/"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "copy-test",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 2,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "storage/source/"
+							},
+							{
+								"name": "Destination",
+								"value": "storage/destination/"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Item_Identifier",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Item_Identifier",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Item_Weight",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Item_Weight",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Item_Fat_Content",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Item_Fat_Content",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Item_Visibility",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Item_Visibility",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Item_Type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Item_Type",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Item_MRP",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Item_MRP",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Outlet_Identifier",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Outlet_Identifier",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Outlet_Establishment_Year",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Outlet_Establishment_Year",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Outlet_Size",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Outlet_Size",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Outlet_Location_Type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Outlet_Location_Type",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Outlet_Type",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Outlet_Type",
+											"type": "String",
+											"physicalType": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Item_Outlet_Sales",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Item_Outlet_Sales",
+											"type": "String",
+											"physicalType": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "sales_src",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "sales_dest",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2026-04-20T04:58:27Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/sales_src')]",
+				"[concat(variables('factoryId'), '/datasets/sales_dest')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sales')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "source",
+						"fileSystem": "storage"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Item_Identifier",
+						"type": "String"
+					},
+					{
+						"name": "Item_Weight",
+						"type": "String"
+					},
+					{
+						"name": "Item_Fat_Content",
+						"type": "String"
+					},
+					{
+						"name": "Item_Visibility",
+						"type": "String"
+					},
+					{
+						"name": "Item_Type",
+						"type": "String"
+					},
+					{
+						"name": "Item_MRP",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Identifier",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Establishment_Year",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Size",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Location_Type",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Type",
+						"type": "String"
+					},
+					{
+						"name": "Item_Outlet_Sales",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sales_dest')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "destination",
+						"fileSystem": "storage"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sales_src')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ADLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "sales.csv",
+						"folderPath": "source",
+						"fileSystem": "storage"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Item_Identifier",
+						"type": "String"
+					},
+					{
+						"name": "Item_Weight",
+						"type": "String"
+					},
+					{
+						"name": "Item_Fat_Content",
+						"type": "String"
+					},
+					{
+						"name": "Item_Visibility",
+						"type": "String"
+					},
+					{
+						"name": "Item_Type",
+						"type": "String"
+					},
+					{
+						"name": "Item_MRP",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Identifier",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Establishment_Year",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Size",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Location_Type",
+						"type": "String"
+					},
+					{
+						"name": "Outlet_Type",
+						"type": "String"
+					},
+					{
+						"name": "Item_Outlet_Sales",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ADLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ADLS_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('ADLS_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
