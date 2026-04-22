@@ -3,221 +3,28 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "copy-test",
-				"type": "Copy",
+				"name": "test-notebook",
+				"type": "DatabricksNotebook",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
-					"retry": 2,
+					"retry": 0,
 					"retryIntervalInSeconds": 30,
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [
-					{
-						"name": "Source",
-						"value": "storage/source/"
-					},
-					{
-						"name": "Destination",
-						"value": "storage/destination/"
-					}
-				],
+				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "DelimitedTextSource",
-						"storeSettings": {
-							"type": "AzureBlobFSReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						},
-						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
-						}
-					},
-					"sink": {
-						"type": "DelimitedTextSink",
-						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings"
-						},
-						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".txt"
-						}
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "Item_Identifier",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Item_Identifier",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Item_Weight",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Item_Weight",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Item_Fat_Content",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Item_Fat_Content",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Item_Visibility",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Item_Visibility",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Item_Type",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Item_Type",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Item_MRP",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Item_MRP",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Outlet_Identifier",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Outlet_Identifier",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Outlet_Establishment_Year",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Outlet_Establishment_Year",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Outlet_Size",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Outlet_Size",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Outlet_Location_Type",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Outlet_Location_Type",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Outlet_Type",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Outlet_Type",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Item_Outlet_Sales",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "Item_Outlet_Sales",
-									"type": "String",
-									"physicalType": "String"
-								}
-							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
-					}
+					"notebookPath": "/sample"
 				},
-				"inputs": [
-					{
-						"referenceName": "sales_src",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "sales_dest",
-						"type": "DatasetReference"
-					}
-				]
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks1",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": [],
-		"lastPublishTime": "2026-04-20T04:58:27Z"
+		"lastPublishTime": "2026-04-22T05:25:23Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
