@@ -11,6 +11,9 @@
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
 		"ADLS_properties_typeProperties_url": {
 			"value": "https://devadfstorage.dfs.core.windows.net/"
 		},
